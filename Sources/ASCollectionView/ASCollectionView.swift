@@ -742,14 +742,9 @@ public class AS_CollectionViewController: UIViewController
 	weak var coordinator: ASCollectionViewCoordinator?
 
 	var collectionViewLayout: UICollectionViewLayout
-	lazy var collectionView: UICollectionView = {
+	public lazy var collectionView: UICollectionView = {
 		UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 	}()
-	
-	public func scrollToBottom() {
-		let maxOffset = self.collectionView.maxContentOffset
-		self.collectionView.setContentOffset(.init(x: 0, y: maxOffset.y), animated: true)
-	}
 	
 	public init(collectionViewLayout layout: UICollectionViewLayout)
 	{
