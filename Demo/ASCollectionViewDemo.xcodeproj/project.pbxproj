@@ -509,14 +509,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ASCollectionViewDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 2JV298SK2V;
+				DEVELOPMENT_TEAM = DS97PD36X6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ASCollectionViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.apptekstudios.ASCollectionViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atow.apptekstudios.ASCollectionViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -529,14 +529,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ASCollectionViewDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 2JV298SK2V;
+				DEVELOPMENT_TEAM = DS97PD36X6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ASCollectionViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.apptekstudios.ASCollectionViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atow.apptekstudios.ASCollectionViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
