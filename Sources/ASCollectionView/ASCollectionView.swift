@@ -745,7 +745,12 @@ public class AS_CollectionViewController: UIViewController
 	lazy var collectionView: UICollectionView = {
 		UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 	}()
-
+	
+	public func scrollToBottom() {
+		let maxOffset = self.collectionView.maxContentOffset
+		self.collectionView.setContentOffset(.init(x: 0, y: maxOffset.y), animated: true)
+	}
+	
 	public init(collectionViewLayout layout: UICollectionViewLayout)
 	{
 		collectionViewLayout = layout
