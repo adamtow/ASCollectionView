@@ -13,14 +13,14 @@ struct RemindersScreen: View
 		case footnote
 	}
 
-	@State var upperData: [GroupModel] = [GroupModel(icon: "calendar", title: "Today", color: .blue),
-										  GroupModel(icon: "clock.fill", title: "Scheduled", color: .orange),
-										  GroupModel(icon: "tray.fill", title: "All", color: .gray),
-										  GroupModel(icon: "flag.fill", title: "Flagged", color: .red)]
-	@State var lowerData: [GroupModel] = [GroupModel(icon: "list.bullet", title: "Todo"),
-										  GroupModel(icon: "cart.fill", title: "Groceries"),
-										  GroupModel(icon: "house.fill", title: "House renovation"),
-										  GroupModel(icon: "book.fill", title: "Reading list")]
+	var upperData: [GroupModel] = [GroupModel(icon: "calendar", title: "Today", color: .blue),
+								   GroupModel(icon: "clock.fill", title: "Scheduled", color: .orange),
+								   GroupModel(icon: "tray.fill", title: "All", color: .gray),
+								   GroupModel(icon: "flag.fill", title: "Flagged", color: .red)]
+	var lowerData: [GroupModel] = [GroupModel(icon: "list.bullet", title: "Todo"),
+								   GroupModel(icon: "cart.fill", title: "Groceries"),
+								   GroupModel(icon: "house.fill", title: "House renovation"),
+								   GroupModel(icon: "book.fill", title: "Reading list")]
 
 	let addNewModel = GroupModel(icon: "plus", title: "Create new list", contentCount: nil, color: .green)
 
@@ -46,14 +46,11 @@ struct RemindersScreen: View
 			}
 			.sectionHeader
 			{
-				HStack
-				{
-					Text("My Lists")
-						.font(.headline)
-						.bold()
-						.padding()
-					Spacer()
-				}
+				Text("My Lists")
+					.font(.headline)
+					.bold()
+					.padding()
+					.frame(maxWidth: .infinity, alignment: .leading)
 			}
 
 			ASCollectionViewSection<Section>(id: .addNew)
@@ -63,13 +60,9 @@ struct RemindersScreen: View
 
 			ASCollectionViewSection<Section>(id: .footnote)
 			{
-				HStack
-				{
-					Spacer()
-					Text("Try rotating the screen")
-						.padding()
-					Spacer()
-				}
+				Text("Try rotating the screen")
+					.padding()
+					.frame(maxWidth: .infinity, alignment: .center)
 			}
 		}
 		.layout(self.layout)

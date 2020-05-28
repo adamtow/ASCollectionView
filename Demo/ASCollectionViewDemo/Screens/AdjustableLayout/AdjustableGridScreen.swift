@@ -17,7 +17,6 @@ struct AdjustableGridScreen: View
 {
 	@ObservedObject var layoutState = LayoutState()
 	@State var showConfig: Bool = true
-	@State var animateChange: Bool = false
 	@State var data: [Post] = DataSource.postsForGridSection(1, number: 1000)
 
 	typealias SectionID = Int
@@ -28,7 +27,7 @@ struct AdjustableGridScreen: View
 			id: 0,
 			data: data,
 			onCellEvent: onCellEvent)
-		{ item, state in
+		{ item, _ in
 			ZStack(alignment: .bottomTrailing)
 			{
 				GeometryReader
@@ -37,24 +36,15 @@ struct AdjustableGridScreen: View
 						.aspectRatio(1, contentMode: .fill)
 						.frame(width: geom.size.width, height: geom.size.height)
 						.clipped()
-						.opacity(state.isSelected ? 0.7 : 1.0)
 				}
 
-				if state.isSelected
-				{
-					ZStack
-					{
-						Circle()
-							.fill(Color.blue)
-						Circle()
-							.strokeBorder(Color.white, lineWidth: 2)
-						Image(systemName: "checkmark")
-							.font(.system(size: 10, weight: .bold))
-							.foregroundColor(.white)
-					}
-					.frame(width: 20, height: 20)
+				Text("\(item.offset)")
+					.font(.headline)
+					.bold()
+					.padding(2)
+					.background(Color(.systemBackground).opacity(0.5))
+					.cornerRadius(4)
 					.padding(10)
-				}
 			}
 		}
 	}
@@ -63,11 +53,9 @@ struct AdjustableGridScreen: View
 	{
 		VStack
 		{
-			Stepper("Number of columns", value: self.$layoutState.numberOfColumns, in: 0 ... 10)
+			Stepper("Number of columns", value: self.$layoutState.numberOfColumns, in: 1 ... 10)
 				.padding()
 			Stepper("Item inset", value: self.$layoutState.itemInset, in: 0 ... 5)
-				.padding()
-			Toggle(isOn: self.$animateChange) { Text("Animate layout change") }
 				.padding()
 		}
 	}
@@ -83,7 +71,7 @@ struct AdjustableGridScreen: View
 			ASCollectionView(
 				section: section)
 				.layout(self.layout)
-				.shouldInvalidateLayoutOnStateChange(true, animated: self.animateChange) /// ////////////////////// TELLS ASCOLLECTIONVIEW TO INVALIDATE THE LAYOUT WHEN THE VIEW IS UPDATED
+				.shouldInvalidateLayoutOnStateChange(true)
 				.navigationBarTitle("Adjustable Layout", displayMode: .inline)
 		}
 		.navigationBarItems(

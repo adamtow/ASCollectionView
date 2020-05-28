@@ -3,7 +3,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![Build Status](https://travis-ci.com/apptekstudios/ASCollectionView.svg?branch=master)](https://travis-ci.com/apptekstudios/ASCollectionView)
+![Build status](https://github.com/apptekstudios/ASCollectionView/workflows/Build/badge.svg?branch=master)
 
 # ASCollectionView
 A SwiftUI implementation of UICollectionView & UITableView. Here's some of its useful features:
@@ -32,9 +32,11 @@ A SwiftUI implementation of UICollectionView & UITableView. Here's some of its u
 <img src="/readmeAssets/demo1.jpeg" width="300">    <img src="/readmeAssets/demo2.jpeg" width="300">    <img src="/readmeAssets/demo3.jpeg" width="300">    <img src="/readmeAssets/demo4.jpeg" width="300">    <img src="/readmeAssets/demo5.jpeg" width="300">    <img src="/readmeAssets/demo6.jpeg" width="300">    <img src="/readmeAssets/demo7.jpeg" width="500">
 
 ## Getting Started
-ASCollectionView is a swift package.
+ASCollectionView is a *swift package*.
  * It can be imported into an app project using Xcode’s new Swift Packages option, which is located within the File menu.
  * When asked, use this repository's url: https://github.com/apptekstudios/ASCollectionView
+
+Alternatively, if you're unable to use SPM for some reason, you can import it using cocoapods: ```pod 'ASCollectionView-SwiftUI', '~> 1.3'```
 
 ## Usage
 
@@ -99,13 +101,10 @@ struct ExampleView: View {
 			}
 			.sectionHeader
 			{
-				HStack
-				{
-					Text("Section header")
-						.padding()
-					Spacer()
-				}
-				.background(Color.yellow)
+				Text("Section header")
+					.padding()
+					.frame(maxWidth: .infinity, alignment: .leading) //Fill width and align text to the left
+					.background(Color.yellow)
 			}
 			.sectionFooter
 			{

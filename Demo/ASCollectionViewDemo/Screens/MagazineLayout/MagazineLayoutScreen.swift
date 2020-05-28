@@ -16,25 +16,21 @@ struct MagazineLayoutScreen: View
 	{
 		data.enumerated().map
 		{ (offset, sectionData) -> ASCollectionViewSection<Int> in
-			ASCollectionViewSection(id: offset, data: sectionData, onCellEvent: onCellEvent)
+			ASCollectionViewSection(
+				id: offset,
+				data: sectionData,
+				onCellEvent: onCellEvent,
+				contextMenuProvider: contextMenuProvider)
 			{ item, _ in
 				ASRemoteImageView(item.url)
 					.aspectRatio(1, contentMode: .fit)
-					.contextMenu
-				{
-					Text("Test item")
-					Text("Another item")
-				}
 			}
 			.sectionSupplementary(ofKind: MagazineLayout.SupplementaryViewKind.sectionHeader)
 			{
-				HStack
-				{
-					Text("Section \(offset)")
-						.padding()
-					Spacer()
-				}
-				.background(Color.blue)
+				Text("Section \(offset)")
+					.padding()
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.background(Color.blue)
 			}
 		}
 	}
@@ -43,13 +39,12 @@ struct MagazineLayoutScreen: View
 	{
 		ASCollectionView(sections: self.sections)
 			.layout { MagazineLayout() }
+			.onReachedBoundary { boundary in
+				print("Reached the \(boundary) boundary")
+			}
 			.customDelegate(ASCollectionViewMagazineLayoutDelegate.init)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarTitle("Magazine Layout (custom delegate)", displayMode: .inline)
-			.onCollectionViewReachedBoundary
-		{ boundary in
-			print("Reached the \(boundary) boundary")
-		}
 	}
 
 	func onCellEvent(_ event: CellEvent<Post>)
@@ -71,6 +66,17 @@ struct MagazineLayoutScreen: View
 				ASRemoteImageManager.shared.cancelLoad(for: item.url)
 			}
 		}
+	}
+
+	func contextMenuProvider(index: Int, post: Post) -> UIContextMenuConfiguration?
+	{
+		let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
+			let testAction = UIAction(title: "Test") { _ in
+				//
+			}
+			return UIMenu(title: "", image: nil, identifier: nil, options: [], children: [testAction])
+		}
+		return configuration
 	}
 }
 

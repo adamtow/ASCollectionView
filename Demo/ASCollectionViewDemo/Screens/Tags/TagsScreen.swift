@@ -19,10 +19,16 @@ struct TagsScreen: View
 			HStack
 			{
 				Spacer()
-				Text("Tap screen to reload new tags")
+				Text("Tap this button to reload new tags")
 					.padding()
 					.background(Color(.secondarySystemBackground))
 				Spacer()
+			}
+			.onTapGesture
+			{
+				withAnimation(self.shrinkToSize ? nil : .default) {
+					self.store.refreshStore()
+				}
 			}
 			Text("Tags:")
 				.font(.title)
@@ -32,34 +38,34 @@ struct TagsScreen: View
 				ASCollectionViewSection(id: 0, data: store.items)
 				{ item, _ in
 					Text(item.displayString)
-						.fixedSize()
+						.fixedSize(horizontal: false, vertical: true)
 						.padding(5)
 						.background(Color(.systemGray))
 						.cornerRadius(5)
-			})
-				.layout
+				}.selfSizingConfig { _ in
+					ASSelfSizingConfig(canExceedCollectionWidth: false)
+				}
+			)
+			.layout
 			{
 				let fl = AlignedFlowLayout()
 				fl.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 				return fl
 			}
-			.shrinkToContentSize(isEnabled: shrinkToSize, $contentSize, dimensionToShrink: .vertical)
+			.shrinkToContentSize(isEnabled: shrinkToSize, dimension: .vertical)
 
 			if shrinkToSize
 			{
-				Rectangle().fill(Color(.secondarySystemBackground))
-					.overlay(
-						Text("This is another view in the VStack, it shows how the collectionView above fits itself to the content.")
-							.foregroundColor(Color(.secondaryLabel))
-							.padding(),
-						alignment: .topLeading)
+				Text("This is another view in the VStack, it shows how the collectionView above fits itself to the content.")
+					.padding()
+					.frame(idealWidth: .infinity, maxWidth: .infinity)
+					.foregroundColor(Color(.secondaryLabel))
+					.fixedSize(horizontal: false, vertical: true)
+					.background(Color(.secondarySystemBackground))
+				Spacer()
 			}
 		}
 		.padding()
-		.onTapGesture
-		{
-			self.store.refreshStore()
-		}
 		.navigationBarTitle("Tags", displayMode: .inline)
 	}
 }
@@ -68,12 +74,7 @@ class AlignedFlowLayout: UICollectionViewFlowLayout
 {
 	override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool
 	{
-		if let collectionView = self.collectionView
-		{
-			return collectionView.frame.width != newBounds.width // We only care about changes in the width
-		}
-
-		return false
+		true
 	}
 
 	override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]?

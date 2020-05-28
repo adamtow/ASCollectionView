@@ -6,10 +6,8 @@ import UIKit
 
 struct PhotoGridScreen: View
 {
-	var startingAtBottom: Bool = false
-
 	@State var data: [Post] = DataSource.postsForGridSection(1, number: 1000)
-	@State var selectedItems: IndexSet = []
+	@State var selectedItems: Set<Int> = []
 
 	@Environment(\.editMode) private var editMode
 	var isEditing: Bool
@@ -24,12 +22,10 @@ struct PhotoGridScreen: View
 		ASCollectionViewSection(
 			id: 0,
 			data: data,
+			selectedItems: $selectedItems,
 			onCellEvent: onCellEvent,
-			onDragDropEvent: onDragDropEvent,
-			itemProvider: { item in
-				// Example of returning a custom item provider (eg. to support drag-drop to other apps)
-				NSItemProvider(object: item.url as NSURL)
-		})
+			dragDropConfig: dragDropConfig,
+			contextMenuProvider: contextMenuProvider)
 		{ item, state in
 			ZStack(alignment: .bottomTrailing)
 			{
@@ -67,11 +63,10 @@ struct PhotoGridScreen: View
 	var body: some View
 	{
 		ASCollectionView(
-			selectedItems: $selectedItems,
 			section: section)
 			.layout(self.layout)
-			.initialScrollPosition(startingAtBottom ? .bottom : nil)
-			.navigationBarTitle("Explore", displayMode: .inline)
+			.edgesIgnoringSafeArea(.all)
+			.navigationBarTitle("Explore", displayMode: .large)
 			.navigationBarItems(
 				trailing:
 				HStack(spacing: 20)
@@ -79,7 +74,10 @@ struct PhotoGridScreen: View
 					if self.isEditing
 					{
 						Button(action: {
-							self.data.remove(atOffsets: self.selectedItems)
+							withAnimation {
+								// We want the cell removal to be animated, so explicitly specify `withAnimation`
+								self.data.remove(atOffsets: IndexSet(self.selectedItems))
+							}
 						})
 						{
 							Image(systemName: "trash")
@@ -111,6 +109,20 @@ struct PhotoGridScreen: View
 		}
 	}
 
+	func contextMenuProvider(int: Int, post: Post) -> UIContextMenuConfiguration?
+	{
+		let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
+			let testAction = UIAction(title: "Do nothing") { _ in
+				//
+			}
+			let testAction2 = UIAction(title: "Try dragging the photo") { _ in
+				//
+			}
+			return UIMenu(title: "", image: nil, identifier: nil, options: [], children: [testAction, testAction2])
+		}
+		return configuration
+	}
+
 	func destinationForItem(_ item: Post) -> some View
 	{
 		ScrollView {
@@ -120,17 +132,7 @@ struct PhotoGridScreen: View
 					ASRemoteImageManager.shared.load(item.usernamePhotoURL)
 				}
 		}
-	}
-
-	func onDragDropEvent(_ event: DragDrop<Post>)
-	{
-		switch event
-		{
-		case let .onRemoveItem(indexPath):
-			data.remove(at: indexPath.item)
-		case let .onAddItems(items, indexPath):
-			data.insert(contentsOf: items, at: indexPath.item)
-		}
+		.navigationBarTitle("", displayMode: .inline)
 	}
 }
 
@@ -173,6 +175,15 @@ extension PhotoGridScreen
 				return section
 			}
 		}
+	}
+
+	var dragDropConfig: ASDragDropConfig<Post>
+	{
+		ASDragDropConfig<Post>(dataBinding: $data)
+			.enableReordering(shouldMoveItem: nil)
+			.dragItemProvider { item in
+				NSItemProvider(object: item.url as NSURL)
+			}
 	}
 }
 

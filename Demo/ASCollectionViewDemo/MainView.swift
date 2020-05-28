@@ -52,14 +52,14 @@ struct MainView: View
 						Image(systemName: "8.square.fill")
 						Text("Adjustable layout")
 					}
+					NavigationLink(destination: TableViewDragAndDropScreen())
+					{
+						Image(systemName: "9.square.fill")
+						Text("Multiple TableView drag&drop")
+					}
 				}
 				Section(header: Text("Modified examples"))
 				{
-					NavigationLink(destination: PhotoGridScreen(startingAtBottom: true))
-					{
-						Image(systemName: "hammer")
-						Text("Photo grid (Starting at bottom)")
-					}
 					NavigationLink(destination: TagsScreen(shrinkToSize: true))
 					{
 						Image(systemName: "hammer")
