@@ -9,7 +9,7 @@ public class AS_CollectionViewController: UIViewController
 	weak var coordinator: ASCollectionViewCoordinator?
 
 	var collectionViewLayout: UICollectionViewLayout
-	lazy var collectionView: AS_UICollectionView = {
+	public lazy var collectionView: AS_UICollectionView = {
 		let cv = AS_UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 		return cv
 	}()
