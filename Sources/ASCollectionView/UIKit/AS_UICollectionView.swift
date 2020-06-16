@@ -105,7 +105,7 @@ public class AS_CollectionViewController: UIViewController
 public class AS_UICollectionView: UICollectionView
 {
 	weak var coordinator: ASCollectionViewCoordinator?
-	override func didMoveToSuperview()
+	override public func didMoveToSuperview()
 	{
 		if superview != nil { coordinator?.onMoveToParent() }
 	}
