@@ -102,7 +102,7 @@ public class AS_CollectionViewController: UIViewController
 }
 
 @available(iOS 13.0, *)
-class AS_UICollectionView: UICollectionView
+public class AS_UICollectionView: UICollectionView
 {
 	weak var coordinator: ASCollectionViewCoordinator?
 	override func didMoveToSuperview()
