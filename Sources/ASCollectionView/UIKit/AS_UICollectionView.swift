@@ -102,10 +102,10 @@ public class AS_CollectionViewController: UIViewController
 }
 
 @available(iOS 13.0, *)
-public class AS_UICollectionView: UICollectionView
+class AS_UICollectionView: UICollectionView
 {
 	weak var coordinator: ASCollectionViewCoordinator?
-	override public func didMoveToSuperview()
+	override func didMoveToSuperview()
 	{
 		if superview != nil { coordinator?.onMoveToParent() }
 	}
